@@ -18,6 +18,10 @@ function App() {
      const newTask = { id: v1(), title: inputValue, isDone: false }
      setTasks([newTask, ...tasks])
     }
+
+    const onCheek=(idT:string, even:boolean)=>{
+       setTasks(tasks.map(t=> t.id===idT ? {...t, isDone: even } : t))
+    }
     function removeTask(id: string) {
         let filteredTasks = tasks.filter(t => t.id !== id);
         setTasks(filteredTasks);
@@ -28,10 +32,10 @@ function App() {
     let tasksForTodolist = tasks;
 
     if (filter === "active") {
-        tasksForTodolist = tasks.filter(t => t.isDone === false);
+        tasksForTodolist = tasks.filter(t => !t.isDone);
     }
     if (filter === "completed") {
-        tasksForTodolist = tasks.filter(t => t.isDone === true);
+        tasksForTodolist = tasks.filter(t => t.isDone);
     }
 
     function changeFilter(value: FilterValuesType) {
@@ -45,6 +49,7 @@ function App() {
                       removeTask={removeTask}
                       changeFilter={changeFilter}
                       addTask={addTask}
+                      onCheek={onCheek}
             />
         </div>
     );
