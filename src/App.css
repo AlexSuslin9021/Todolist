@@ -7,12 +7,18 @@
   margin-right: 50px;
 }
 
-.error{
+.error {
+  border: red 1px solid;
+}
+
+.error-message {
   color: red;
 }
-.errorInput{
-  border: 1px solid red;
+
+.active-filter {
+  background-color: aquamarine;
 }
-.activ button{
-  background: lightskyblue;
+
+.is-done {
+  opacity: 0.5;
 }

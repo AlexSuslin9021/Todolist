@@ -1,56 +1,214 @@
 import React, {useState} from 'react';
 import './App.css';
-import {Todolist} from './Todolist';
-import {v1} from "uuid";
+import {TaskType, Todolist} from './Todolist';
+import {v1} from 'uuid';
+
+type ObjectType = {
+    title: string
+    filter: FilterValuesType
+    tasks: Array<TasksType>
+    students: Array<string>
+}
+export type TasksType = {
+    taskId: string
+    title: string
+    isDone: boolean
+}
 
 export type FilterValuesType = "all" | "active" | "completed";
 
+
 function App() {
+    // let todolistId1 = v1();
+    // let todolistId2 = v1();
+    //
+    // let [todolists, setTodolists] = useState<Array<TodolistType>>([
+    //     {id: todolistId1, title: "What to learn", filter: "all"},
+    //     {id: todolistId2, title: "What to buy", filter: "all"}
+    // ])
+    //
+    // let [tasks, setTasks] = useState<TasksStateType>({
+    //     [todolistId1]: [
+    //         {id: v1(), title: "HTML&CSS", isDone: true},
+    //         {id: v1(), title: "JS", isDone: true}
+    //     ],
+    //     [todolistId2]: [
+    //         {id: v1(), title: "Milk", isDone: true},
+    //         {id: v1(), title: "React Book", isDone: true}
+    //     ]
+    // });
 
-    let [tasks, setTasks] = useState([
-        { id: v1(), title: "HTML&CSS", isDone: true },
-        { id: v1(), title: "JS", isDone: true },
-        { id: v1(), title: "ReactJS", isDone: false },
-        { id: v1(), title: "Rest API", isDone: false },
-        { id: v1(), title: "GraphQL", isDone: false },
-    ]);
- const addTask=(inputValue:string)=>{
-     const newTask = { id: v1(), title: inputValue, isDone: false }
-     setTasks([newTask, ...tasks])
-    }
+    const [todo, setTodo] = useState<Array<ObjectType>>([
+        {
+            title: "What to learn",
+            filter: "all",
+            tasks: [
+                {taskId: v1(), title: "HTML&CSS", isDone: true},
+                {taskId: v1(), title: "JS", isDone: true}
+            ],
+            students: [
+                'Rick Kane',
+                'Finnlay Bentley',
+                'Samia North',
+                'Isaac Morton',
+                'Lily-Ann Clifford',
+                'Thalia Park',
+                'Sapphire Cruz',
+                'Cieran Vazquez',
+                'Anya Estes',
+                'Dominika Field',
+                'Rosanna Chung',
+                'Safiyah Davey',
+                'Ryley Beasley',
+                'Kalvin Trejo',
+                'Evie-Mae Farrell',
+                'Juliet Valencia',
+                'Astrid Austin',
+                'Lyle Montgomery',
+                'Nisha Mora',
+                'Kylie Callaghan',
+                'Star Wilks',
+                'Marissa Colley',
+                'Asa Fuller',
+                'Leigh Kemp',
+                'Avleen Dawson',
+                'Sammy Bonilla',
+                'Acacia Becker',
+                'Coral Shepherd',
+                'Melina Molina',
+                'Kiran Bailey',
+                'Clara Escobar',
+                'Alexandru Horn',
+                'Brandon-Lee Mercado',
+                'Elouise Weston',
+                'King Long',
+                'Kerri Searle',
+                'Kanye Hamer',
+                'Elwood Benitez',
+                'Mikail Whitaker',
+                'Bobby Hardy',
+                'Talha Ferry',
+                'Priscilla Landry',
+                'Olivia-Grace Cain',
+                'Kiaan Wallace',
+                'Wesley Padilla90',
+                'Ella-Grace Wooten91',
+                'Kaif Molloy92',
+                'Kamal Broadhurst93',
+                'Bianca Ferrell94',
+                'Micheal Talbot95',
+            ]
+        },
+        {
+            title: "What to do",
+            filter: "all",
+            tasks: [
+                {taskId: v1(), title: "HTML&CSS2", isDone: true},
+                {taskId: v1(), title: "JS2", isDone: true}
+            ],
+            students: [
+                'Jago Wormald1',
+                'Saul Milne2',
+                'Aariz Hester3',
+                'Dion Reeve4',
+                'Anisa Ortega5',
+                'Blade Cisneros6',
+                'Malaikah Phelps7',
+                'Zeeshan Gallagher8',
+                'Isobella Vo9',
+                'Rizwan Mathis10',
+                'Menaal Leach11',
+                'Kian Walton12',
+                'Orion Lamb13',
+                'Faizah Huynh14',
+                'Crystal Vaughan15',
+                'Vivien Hickman16',
+                'Stuart Lu17',
+                'Karol Davison18',
+                'Dario Burns19',
+                'Chloe Rich20',
+                'Martyna Felix',
+                'Nida Glass',
+                'Maeve Miles',
+                'Hasnain Puckett',
+                'Ayman Cano',
+                'Safwan Perry',
+                'Fox Kelly',
+                'Louise Barlow',
+                'Malaki Mcgill',
+                'Leanna Cline',
+                'Willard Hodge',
+                'Amelia Dorsey',
+                'Kiah Porter',
+                'Jeanne Daly',
+                'Mohsin Armstrong',
+                'Laurie Rangel',
+                'Princess Tierney',
+                'Kasim Kendall',
+                'Darryl Cope',
+                'Elysha Ray',
+                'Liyana Harris',
+                'Kashif Blackburn',
+                'Atif Zimmerman',
+                'Sila Hartley',
+                'Ralphie Hebert',
+            ]
+        }
+    ])
 
-    const onCheek=(idT:string, even:boolean)=>{
-       setTasks(tasks.map(t=> t.id===idT ? {...t, isDone: even } : t))
-    }
+
     function removeTask(id: string) {
-        let filteredTasks = tasks.filter(t => t.id !== id);
-        setTasks(filteredTasks);
+        setTodo([...todo.map(t => t ? {...t, tasks: t.tasks.filter(ts => ts.taskId !== id)} : t)])
     }
 
-    let [filter, setFilter] = useState<FilterValuesType>("all");
-
-    let tasksForTodolist = tasks;
-
-    if (filter === "active") {
-        tasksForTodolist = tasks.filter(t => !t.isDone);
+    function addTask(title: string) {
+        let newTask = {taskId: v1(), title: title, isDone: true}
+        setTodo([...todo.map(t => t ? {...t, tasks: [...t.tasks, newTask]} : t)])
     }
-    if (filter === "completed") {
-        tasksForTodolist = tasks.filter(t => t.isDone);
+
+    function changeStatus(id: string, isDone: boolean,) {
+        setTodo([...todo.map(tl=> tl ? {...tl, tasks:tl.tasks.map(t=>t.taskId===id ? {...t,isDone:isDone } : t)} :tl)])
     }
 
     function changeFilter(value: FilterValuesType) {
-        setFilter(value);
+        setTodo([...todo.map(t => t ? {...t, filter:value} : t)])
+    }
+
+
+    function removeTodolist(id: number) {
+
+        setTodo(todo.filter((t, index)=> t ? todo.indexOf(todo[index])!==id:t  ))
     }
 
     return (
         <div className="App">
-            <Todolist title="What to learn"
-                      tasks={tasksForTodolist}
-                      removeTask={removeTask}
-                      changeFilter={changeFilter}
-                      addTask={addTask}
-                      onCheek={onCheek}
-            />
+            {
+                todo.map((tl, index) => {
+                    // let allTodolistTasks = tl.tasks;
+                    let tasksForTodolist = tl.tasks;
+
+                    if (tl.filter === "active") {
+                        tasksForTodolist = tl.tasks.filter(t => t.taskId && !t.isDone);
+                    }
+                    if (tl.filter === "completed") {
+                        tasksForTodolist = tl.tasks.filter(t => t.taskId && t.isDone);
+                    }
+
+                    return <Todolist
+                        key={index}
+                        id={index}
+                        title={tl.title}
+                        tasks={tasksForTodolist}
+                        removeTask={removeTask}
+                        changeFilter={changeFilter}
+                        addTask={addTask}
+                        changeTaskStatus={changeStatus}
+                        filter={tl.filter}
+                        removeTodolist={removeTodolist}
+                    />
+                })
+            }
+
         </div>
     );
 }
