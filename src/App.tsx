@@ -6,7 +6,7 @@ import {AddItemForm} from './AddItemForm';
 import {AppBar, IconButton, Toolbar, Typography} from "@mui/material";
 
 export type FilterValuesType = "all" | "active" | "completed";
-type TodolistType = {
+export type TodolistType = {
     id: string
     title: string
     filter: FilterValuesType
