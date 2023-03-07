@@ -1,22 +1,27 @@
-// import {v1} from "uuid";
-// import {TasksStateType, TodolistType} from "../App";
-// import {addTaskAC, changeStatusAC, changeTaskTitleAC, reducerTask, removeTaskAC} from "./task-reducer";
-// import {AddTodolistAC} from "./todolists-reducer";
-//
-//
-// test('add task for state', () => {
-//     let tasks: TasksStateType = {
-//         ['TD1']: [
-//             {id: v1(), title: "HTML&CSS", isDone: true},
-//             {id: v1(), title: "JS", isDone: true}
-//         ],
-//         ['TD2']: [
-//             {id: v1(), title: "Milk", isDone: true},
-//             {id: v1(), title: "React Book", isDone: true}
-//         ]
-//     }
-//     let todo: TodolistType[] = []
-//
+import {TasksStateType, TodolistType} from "../App";
+import {AddTodolistAC, todolistsReducer} from "./todolists-reducer";
+import {reducerTask} from "./task-reducer";
+
+test('ids should be equals', () => {
+    const startTasksState: TasksStateType = {}
+    const startTodolistsState: Array<TodolistType> = []
+
+    const action = AddTodolistAC('new todolist')
+
+    const endTasksState = reducerTask(startTasksState, action)
+    const endTodolistsState = todolistsReducer(startTodolistsState, action)
+
+    const keys = Object.keys(endTasksState)
+    const idFromTasks = keys[0]
+    const idFromTodolists = endTodolistsState[0].id
+
+    expect(idFromTasks).toBe(action.id)
+    expect(idFromTodolists).toBe(action.id)
+})
+
+
+
+
 //     const action = AddTodolistAC('TD3')
 //     const newState = reducerTask(tasks, action)
 //     const keys = Object.keys(newState)
@@ -27,10 +32,4 @@
 //
 //     expect(keys.length).toBe(3)
 //     expect(newState[newKey]).toEqual([])
-//
-// })
-
-
-
-
 

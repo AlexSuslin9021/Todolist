@@ -1,10 +1,10 @@
 import React from 'react';
 import {TasksStateType} from "../App";
 import {v1} from "uuid";
-import {AddTodolistActionType} from "./todolists-reducer";
+import {AddTodolistActionType, RemoveTodolistActionType} from "./todolists-reducer";
 
 
-type ActionType = AddTaskType | RemoveTaskType |ChangeStatusType | ChangeTaskTitleType
+type ActionType = AddTaskType | RemoveTaskType |ChangeStatusType | ChangeTaskTitleType | AddTodolistActionType | RemoveTodolistActionType
 
 export const reducerTask = (state: TasksStateType, action: ActionType):TasksStateType => {
     switch (action.type) {
@@ -20,6 +20,12 @@ export const reducerTask = (state: TasksStateType, action: ActionType):TasksStat
         case "CHANGE-TITLE":
             return {...state,[action.id]:state[action.id].map(el=>
                 el.id===action.idTask ?{...el, title: action.title} : el) }
+        case "ADD-TODOLIST":
+            return {...state,[action.id]: []}
+        case "REMOVE-TODOLIST":
+           let copyState={...state}
+            delete copyState [action.id]
+            return copyState
 
         default:
             throw new Error("I don't understand this type")
